@@ -414,12 +414,7 @@ function CartBadge({dark}: {dark: boolean}) {
   );
 }
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
-
 const MainNav = ({nav}) => {
-  console.log(nav);
   return (
     <Popover.Group className="hidden lap-wide:ml-8 lap-wide:block lap-wide:self-stretch">
       <div className="flex h-full space-x-12"></div>
