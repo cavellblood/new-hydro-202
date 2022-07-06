@@ -17,15 +17,15 @@ export function CartEmpty({
   const {y} = useScroll(scrollRef);
 
   const container = {
-    drawer: `grid content-start gap-4 px-6 pb-8 transition overflow-y-scroll md:gap-12 md:px-12 h-screen-no-nav md:pb-12 ${
+    drawer: `grid content-start gap-4 px-6 pb-8 transition overflow-y-scroll lap:gap-12 lap:px-12 h-screen-no-nav lap:pb-12 ${
       y > 0 ? 'border-t' : ''
     }`,
-    page: `grid pb-12 w-full md:items-start gap-4 md:gap-8 lg:gap-12`,
+    page: `grid pb-12 w-full lap:items-start gap-4 lap:gap-8 lap-wide:gap-12`,
   };
 
   const topProductsContainer = {
     drawer: '',
-    page: 'md:grid-cols-4 sm:grid-col-4',
+    page: 'lap:grid-cols-4 hands:grid-col-4',
   };
 
   return (

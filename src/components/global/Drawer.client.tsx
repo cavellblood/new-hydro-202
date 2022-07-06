@@ -61,9 +61,9 @@ function Drawer({
                 leaveFrom="translate-x-0"
                 leaveTo={offScreen[openFrom]}
               >
-                <Dialog.Panel className="w-screen h-screen max-w-lg text-left align-middle transition-all transform shadow-xl bg-contrast">
+                <Dialog.Panel className="h-screen w-screen max-w-[32rem] transform bg-white text-left align-middle shadow-xl transition-all">
                   <header
-                    className={`sticky top-0 flex items-center px-6 h-nav sm:px-8 md:px-12 ${
+                    className={`h-nav sticky top-0 flex items-center px-6 hands:px-8 lap:px-12 ${
                       heading ? 'justify-between' : 'justify-end'
                     }`}
                   >
@@ -76,7 +76,7 @@ function Drawer({
                     )}
                     <button
                       type="button"
-                      className="p-4 -m-4 transition text-primary hover:text-primary/50"
+                      className="-m-4 p-4 text-primary transition hover:text-primary/50"
                       onClick={onClose}
                     >
                       <IconClose aria-label="Close panel" />

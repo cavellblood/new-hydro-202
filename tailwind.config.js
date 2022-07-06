@@ -1,14 +1,5 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
 
-function withOpacityValue(variable) {
-  return ({opacityValue}) => {
-    if (opacityValue === undefined) {
-      return `rgb(var(${variable}))`;
-    }
-    return `rgb(var(${variable}) / ${opacityValue})`;
-  };
-}
-
 module.exports = {
   content: ['./index.html', './src/**/*.{js,jsx,ts,tsx}'],
   theme: {
@@ -66,11 +57,12 @@ module.exports = {
         },
       },
       screens: {
-        lap: '736px',
-        'hands-wide': '960px',
-        'lap-wide': '1068px',
-        desk: '1440px',
-        wall: '2560px',
+        hands: '32em', //        512px
+        lap: '46em', //          736px
+        'hands-wide': '60em', // 960px
+        'lap-wide': '1068px', // 1068px
+        desk: '90em', //         1440px
+        wall: '160em', //        2650px
       },
       animation: {
         'banner-drop': 'banner-drop .8s ease-in-out forwards',
@@ -148,7 +140,6 @@ module.exports = {
       }),
     },
   },
-  // eslint-disable-next-line node/no-unpublished-require
   plugins: [
     require('@tailwindcss/typography'),
     require('@tailwindcss/forms'),

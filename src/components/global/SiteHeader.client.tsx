@@ -108,7 +108,7 @@ function MobileHeader({
         : 'bg-contrast/80 text-primary'
     } ${
       y > 50 && !isHome ? 'shadow-lightHeader ' : ''
-    }flex lg:hidden items-center h-nav sticky backdrop-blur-lg z-40 top-0 justify-between w-full leading-none gap-4 px-4 md:px-8`,
+    }flex lap-wide:hidden items-center h-nav sticky backdrop-blur-lg z-40 top-0 justify-between w-full leading-none gap-4 px-4 lap:px-8`,
   };
 
   return (
@@ -119,7 +119,7 @@ function MobileHeader({
         </button>
         <form
           action={`/${countryCode ? countryCode + '/' : ''}search`}
-          className="items-center gap-2 sm:flex"
+          className="items-center gap-2 hands:flex"
         >
           <button type="submit" className={styles.button}>
             <IconSearch />
@@ -139,7 +139,7 @@ function MobileHeader({
       </div>
 
       <Link
-        className="flex h-full w-full flex-grow items-center justify-center self-stretch leading-[3rem] md:leading-[4rem]"
+        className="flex h-full w-full flex-grow items-center justify-center self-stretch leading-[3rem] lap:leading-[4rem]"
         to="/"
       >
         <Heading className="text-center font-bold" as={isHome ? 'h1' : 'h2'}>
@@ -180,16 +180,16 @@ function DesktopHeader({
       <div
         className={clsx(
           isOverlay ? 'absolute  inset-x-0  bg-opacity-50' : 'bg-opacity-50',
-          'border-white-warm-100  bg-white-warm  border-b  backdrop-blur-lg  backdrop-filter',
+          'border-b  border-white-warm-100  bg-white-warm  backdrop-blur-lg  backdrop-filter',
         )}
       >
-        <div className="from-white-warm  absolute  inset-0  bg-gradient-to-b  to-transparent"></div>
+        <div className="absolute  inset-0  bg-gradient-to-b  from-white-warm  to-transparent"></div>
         <Disclosure as="nav" className={'relative  z-10'}>
           {({open}) => (
             <>
               <LayoutElement>
-                <div className="lap-wide:py-4 relative flex  items-center  space-x-6  py-6">
-                  <div className="flex items-center px-2 lg:px-0">
+                <div className="relative flex items-center  space-x-6  py-6  lap-wide:py-4">
+                  <div className="flex items-center px-2 lap-wide:px-0">
                     <div className="flex-shrink-0">
                       <a href="/">
                         <SiteLogo />
@@ -218,7 +218,7 @@ function DesktopHeader({
                               href={item.url}
                               className={
                                 item.url == '/support/help-center'
-                                  ? 'bg-brand-600 hover:bg-brand-700 focus:ring-brand-500 inline-flex items-center rounded-md border border-transparent px-4 py-2 text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2'
+                                  ? 'inline-flex items-center rounded-md border border-transparent bg-brand-600 px-4 py-2 text-white shadow-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2'
                                   : 'hover:text-gray-800'
                               }
                             >
@@ -228,7 +228,7 @@ function DesktopHeader({
                         ))}
                       </ul>
                     </div>
-                    <div className="flex lg:hidden">
+                    <div className="flex lap-wide:hidden">
                       {/* Mobile menu button */}
                       <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                         <span className="sr-only">Open main menu</span>
@@ -242,7 +242,7 @@ function DesktopHeader({
                         )}
                       </Disclosure.Button>
                     </div>
-                    <div className="hidden lg:ml-4 lg:block">
+                    <div className="hidden lap-wide:ml-4 lap-wide:block">
                       <div className="flex items-center">
                         <button onClick={openCart}>
                           <div className="relative">
@@ -304,7 +304,7 @@ function DesktopHeader({
                   </div>
                 </div>
 
-                <Disclosure.Panel className="lg:hidden">
+                <Disclosure.Panel className="lap-wide:hidden">
                   <div className="space-y-1 px-2 pt-2 pb-3">
                     {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
                     <Disclosure.Button
@@ -405,8 +405,8 @@ function CartBadge({dark}: {dark: boolean}) {
     <div
       className={`${
         dark
-          ? 'bg-contrast text-primary dark:bg-primary dark:text-contrast'
-          : 'bg-primary text-contrast'
+          ? 'bg-contrast dark:text-contrast text-primary dark:bg-primary'
+          : 'text-contrast bg-primary'
       } absolute bottom-1 right-1 flex h-3 w-auto min-w-[0.75rem] items-center justify-center rounded-full px-[0.125rem] pb-px text-center text-[0.625rem] font-medium leading-none subpixel-antialiased`}
     >
       <span>{totalQuantity}</span>
@@ -421,7 +421,7 @@ function classNames(...classes) {
 const MainNav = ({nav}) => {
   console.log(nav);
   return (
-    <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch">
+    <Popover.Group className="hidden lap-wide:ml-8 lap-wide:block lap-wide:self-stretch">
       <div className="flex h-full space-x-12"></div>
     </Popover.Group>
   );

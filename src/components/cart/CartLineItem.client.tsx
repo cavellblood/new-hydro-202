@@ -27,7 +27,7 @@ export function CartLineItem() {
             scale: 2,
             crop: 'center',
           }}
-          className="h-24 w-24 rounded border object-cover object-center md:h-28 md:w-28"
+          className="h-24 w-24 rounded border object-cover object-center lap:h-28 lap:w-28"
         />
       </div>
 
@@ -48,7 +48,7 @@ export function CartLineItem() {
           </div>
 
           <div className="flex items-center gap-2">
-            <div className="flex justify-start text-copy">
+            <div className="text-copy flex justify-start">
               <CartLineQuantityAdjust lineId={lineId} quantity={quantity} />
             </div>
             <button

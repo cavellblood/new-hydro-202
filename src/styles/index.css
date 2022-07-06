@@ -57,6 +57,7 @@
 
 html {
   scroll-padding-top: 10rem;
+  @apply bg-near-black antialiased;
 }
 
 #root > div:not(#page-container) {

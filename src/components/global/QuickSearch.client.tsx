@@ -19,7 +19,7 @@ function Hit({hit}) {
           </figure>
         </div>
         <div>
-          <h1 className="text-brand-500  font-semibold">{hit.title}</h1>
+          <h1 className="font-semibold  text-brand-500">{hit.title}</h1>
           <p>${hit.price}</p>
         </div>
       </div>
@@ -76,14 +76,14 @@ export const SearchBar = () => {
               {searchIsShowing && (
                 <Popover.Panel
                   static
-                  className="absolute -left-7 z-30 mt-3 w-full px-4 sm:px-0"
+                  className="absolute -left-7 z-30 mt-3 w-full px-4 hands:px-0"
                 >
                   <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                     <div className="relative  bg-white p-7">
                       <Hits
                         classNames={{
                           root: '',
-                          list: 'grid  grid-cols-2  lg:grid-cols-3',
+                          list: 'grid  grid-cols-2  lap-wide:grid-cols-3',
                         }}
                         hitComponent={Hit}
                       />

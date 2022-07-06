@@ -18,18 +18,20 @@ export function Grid({
   [key: string]: any;
 }) {
   const layouts = {
-    default: `grid-cols-1 ${items === 2 && 'md:grid-cols-2'}  ${
-      items === 3 && 'sm:grid-cols-3'
-    } ${items > 3 && 'md:grid-cols-3'} ${items >= 4 && 'lg:grid-cols-4'}`,
-    products: `grid-cols-2 ${items >= 3 && 'md:grid-cols-3'} ${
-      items >= 4 && 'lg:grid-cols-4'
+    default: `grid-cols-1 ${items === 2 && 'lap:grid-cols-2'}  ${
+      items === 3 && 'hands:grid-cols-3'
+    } ${items > 3 && 'lap:grid-cols-3'} ${
+      items >= 4 && 'lap-wide:grid-cols-4'
+    }`,
+    products: `grid-cols-2 ${items >= 3 && 'lap:grid-cols-3'} ${
+      items >= 4 && 'lap-wide:grid-cols-4'
     }`,
     auto: 'auto-cols-auto',
     blog: `grid-cols-2 pt-24`,
   };
 
   const gaps = {
-    default: 'grid gap-2 gap-y-6 md:gap-4 lg:gap-6',
+    default: 'grid gap-2 gap-y-6 lap:gap-4 lap-wide:gap-6',
     blog: 'grid gap-6',
   };
 

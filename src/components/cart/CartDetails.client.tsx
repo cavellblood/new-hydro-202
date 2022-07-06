@@ -26,17 +26,17 @@ export function CartDetails({
 
   const container = {
     drawer: 'grid grid-cols-1 h-screen-no-nav grid-rows-[1fr_auto]',
-    page: 'pb-12 grid md:grid-cols-2 md:items-start gap-8 md:gap-8 lg:gap-12',
+    page: 'pb-12 grid lap:grid-cols-2 lap:items-start gap-8 lap:gap-8 lap-wide:gap-12',
   };
 
   const content = {
-    drawer: 'px-6 pb-6 sm-max:pt-2 overflow-auto transition md:px-12',
-    page: 'flex-grow md:translate-y-4',
+    drawer: 'px-6 pb-6 sm-max:pt-2 overflow-auto transition lap:px-12',
+    page: 'flex-grow lap:translate-y-4',
   };
 
   const summary = {
-    drawer: 'grid gap-6 p-6 border-t md:px-12',
-    page: 'sticky top-nav grid gap-6 p-4 md:px-6 md:translate-y-4 bg-primary/5 rounded w-full',
+    drawer: 'grid gap-6 p-6 border-t lap:px-12',
+    page: 'sticky top-nav grid gap-6 p-4 lap:px-6 lap:translate-y-4 bg-primary/5 rounded w-full',
   };
 
   return (
@@ -46,7 +46,7 @@ export function CartDetails({
         aria-labelledby="cart-contents"
         className={`${content[layout]} ${y > 0 ? 'border-t' : ''}`}
       >
-        <ul className="grid gap-6 md:gap-10">
+        <ul className="grid gap-6 lap:gap-10">
           {lines.map((line) => {
             return (
               <CartLineProvider key={line.id} line={line}>
