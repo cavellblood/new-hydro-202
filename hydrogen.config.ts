@@ -4,8 +4,8 @@ export default defineConfig({
   shopify: {
     defaultCountryCode: 'US',
     defaultLanguageCode: 'EN',
-    storeDomain: 'hydrogen-preview.myshopify.com',
-    storefrontToken: '3b580e70970c4528da70c98e097c2fa0',
+    storeDomain: 'farmers-friend.myshopify.com',
+    storefrontToken: '71c2b3d50ebc314c389a6979c7bdaf1c',
     storefrontApiVersion: '2022-07',
   },
   session: CookieSessionStorage('__session', {

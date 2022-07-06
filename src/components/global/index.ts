@@ -1,5 +1,4 @@
 export {Drawer, useDrawer} from './Drawer.client';
-export {FooterMenu} from './FooterMenu.client';
-export {Header} from './Header.client';
-export {Modal} from './Modal.client';
-export {PageHeader} from './PageHeader';
+export {SiteLogo} from './SiteLogo';
+export {SiteHeader} from './SiteHeader.client';
+export {SearchBar} from './QuickSearch.client';

@@ -1,0 +1,231 @@
+@layer components {
+  .o-btn {
+    @apply py-3;
+    @apply px-4;
+    @apply rounded-lg;
+    @apply bg-grey;
+    @apply text-white;
+    @apply no-underline;
+    @apply leading-none;
+    @apply font-semibold;
+    @apply cursor-pointer;
+    @apply border-2;
+    @apply border-transparent;
+    @apply inline-block;
+    @apply appearance-none;
+    @apply transition-colors;
+    @apply duration-200;
+
+    &:hover,
+    &:focus {
+      @apply bg-grey-dark;
+    }
+
+    &:focus {
+      @apply outline-none;
+      @apply shadow-outline;
+    }
+  }
+
+  .o-btn + .o-btn {
+    @apply ml-3;
+  }
+
+  .o-btn--icon {
+    @apply pt-2;
+  }
+
+  .o-btn--icon.o-btn--text {
+    @apply pt-0;
+  }
+
+  .o-btn-group {
+    @apply flex;
+    @apply flex-wrap;
+    @apply -mx-2;
+    @apply -mb-2;
+    @apply pt-1;
+    @apply justify-center;
+
+    & .o-btn {
+      @apply mx-2;
+      @apply mb-2;
+    }
+  }
+
+  .o-btn-group--full {
+    @apply mx-0;
+
+    & .o-btn {
+      @apply w-full;
+      @apply mx-0;
+    }
+  }
+
+  .o-btn--dark {
+    @apply bg-near-black;
+
+    &:hover {
+      @apply bg-grey-darkest;
+    }
+
+    &:focus {
+      @apply bg-black;
+    }
+  }
+
+  .o-btn--primary {
+    @apply bg-primary-dark;
+
+    &:hover,
+    &:focus {
+      @apply bg-primary;
+    }
+
+    &.o-btn--outline {
+      @apply border-primary-dark;
+      @apply text-primary-dark;
+
+      &:hover,
+      &:focus {
+        @apply border-primary-dark;
+        @apply bg-primary-lightest;
+        @apply text-primary-dark;
+      }
+    }
+  }
+
+  .o-btn--red {
+    @apply bg-red;
+
+    &:hover,
+    &:focus {
+      @apply bg-red-dark;
+    }
+
+    &.o-btn--outline {
+      @apply border-red;
+      @apply text-red;
+
+      &:hover,
+      &:focus {
+        @apply border-red-dark;
+        @apply bg-red-lightest;
+        @apply text-red;
+      }
+    }
+  }
+
+  .o-btn--disabled {
+    @apply opacity-50;
+    @apply pointer-events-none;
+    @apply select-none;
+  }
+
+  .o-btn--secondary {
+    @apply bg-white;
+    @apply border;
+    @apply text-grey;
+    @apply border-grey-lightest;
+
+    &:hover {
+      @apply bg-near-white;
+      @apply text-grey-dark;
+      @apply border-grey-lighter;
+    }
+  }
+
+  .o-btn--text {
+    @apply bg-transparent;
+    @apply text-primary-dark;
+    @apply px-0;
+    @apply py-1;
+
+    &:hover,
+    &:focus {
+      @apply bg-transparent;
+    }
+
+    &:hover {
+      @apply underline;
+    }
+  }
+
+  .o-btn--outline {
+    @apply bg-transparent;
+    @apply text-grey;
+    @apply border-grey;
+
+    &:hover {
+      @apply bg-grey;
+      @apply border-grey-dark;
+      @apply text-white;
+    }
+  }
+
+  .o-btn--xs {
+    @apply text-xs;
+    @apply font-bold;
+    @apply uppercase;
+    @apply py-1;
+    @apply px-2;
+  }
+  .o-btn--sm {
+    @apply text-sm;
+  }
+
+  .o-btn--lg {
+    @apply text-lg;
+  }
+
+  .o-btn--xl {
+    @apply text-xl;
+  }
+
+  .o-btn--loader,
+  .fui-btn-container .fui-loading {
+    @apply relative;
+    @apply text-transparent;
+    @apply pointer-events-none;
+    @apply select-none;
+
+    &:before {
+      border-radius: 100%;
+      border-width: 0.125em;
+      border-style: solid;
+      display: inline-block;
+      animation: rotate 0.85s 0s linear infinite;
+      width: 1.5em;
+      height: 1.5em;
+      border-color: rgba(255, 255, 255, 0.3);
+      border-bottom-color: theme('colors.white');
+      position: absolute;
+      top: calc(50% - (1.5em / 2));
+      left: calc(50% - (1.5em / 2));
+      content: '';
+    }
+  }
+
+  .o-btn--newsletter {
+    @apply o-btn--xl;
+    @apply w-full;
+    @apply py-4;
+    @apply bg-grey-darkest;
+    @apply text-grey-light;
+    @apply flex;
+    @apply justify-between;
+
+    &:hover,
+    &:focus {
+      @apply bg-black;
+    }
+
+    & > svg {
+      @apply transform;
+      @apply translate-x-0;
+      @apply duration-150;
+      @apply transition-transform;
+      @apply text-primary;
+    }
+  }
+}

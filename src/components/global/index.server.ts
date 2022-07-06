@@ -1,3 +1,2 @@
-export {Footer} from './Footer.server';
-export {Layout} from './Layout.server';
+export {SiteFooter} from './SiteFooter.server';
 export {NotFound} from './NotFound.server';

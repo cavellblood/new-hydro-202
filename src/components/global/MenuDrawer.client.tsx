@@ -1,6 +1,6 @@
 import {EnhancedMenu} from '~/lib/utils';
 import {Text} from '~/components';
-import {Drawer} from './Drawer.client';
+import {Drawer} from '~/components';
 import {Link} from '@shopify/hydrogen';
 
 export function MenuDrawer({

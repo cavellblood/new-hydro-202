@@ -1,7 +1,8 @@
 import {useRef} from 'react';
 import {useScroll} from 'react-use';
 import {fetchSync} from '@shopify/hydrogen';
-import {Button, Text, ProductCard, Heading, Skeleton} from '~/components';
+import {Button, Text, Heading, Skeleton} from '~/components';
+import {ProductCard} from '~/components';
 import type {Product} from '@shopify/hydrogen/storefront-api-types';
 import {Suspense} from 'react';
 
@@ -77,7 +78,7 @@ function Loading() {
         // eslint-disable-next-line react/no-array-index-key
         <div key={i} className="grid gap-2">
           <Skeleton className="aspect-[3/4]" />
-          <Skeleton className="w-32 h-4" />
+          <Skeleton className="h-4 w-32" />
         </div>
       ))}
     </>

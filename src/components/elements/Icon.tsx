@@ -18,7 +18,7 @@ function Icon({
       {...props}
       fill={fill}
       stroke={stroke}
-      className={clsx('w-5 h-5', className)}
+      className={clsx('h-5 w-5', className)}
     >
       {children}
     </svg>
@@ -146,7 +146,7 @@ export function IconSelect(props: IconProps) {
   );
 }
 
-export function IconBag(props: IconProps) {
+export const IconBag = (props: IconProps) => {
   return (
     <Icon {...props}>
       <title>Bag</title>
@@ -156,7 +156,7 @@ export function IconBag(props: IconProps) {
       />
     </Icon>
   );
-}
+};
 
 export function IconAccount(props: IconProps) {
   return (

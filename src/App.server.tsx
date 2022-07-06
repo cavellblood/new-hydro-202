@@ -12,7 +12,7 @@ import {
   CartProvider,
 } from '@shopify/hydrogen';
 
-import {HeaderFallback} from '~/components';
+import {LoadingFallback} from '~/components';
 import type {CountryCode} from '@shopify/hydrogen/storefront-api-types';
 import {DefaultSeo, NotFound} from '~/components/index.server';
 
@@ -24,7 +24,7 @@ function App({request}: HydrogenRouteProps) {
   const isHome = pathname === `/${countryCode ? countryCode + '/' : ''}`;
 
   return (
-    <Suspense fallback={<HeaderFallback isHome={isHome} />}>
+    <Suspense fallback={<LoadingFallback />}>
       <ShopifyProvider countryCode={countryCode}>
         <CartProvider countryCode={countryCode}>
           <Suspense>
