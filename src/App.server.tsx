@@ -14,7 +14,12 @@ import {
 
 import {LoadingFallback} from '~/components';
 import type {CountryCode} from '@shopify/hydrogen/storefront-api-types';
-import {DefaultSeo, NotFound} from '~/components/index.server';
+import {
+  DefaultSeo,
+  NotFound,
+  MarketingOverview,
+  TunnelConfigure,
+} from '~/components/index.server';
 
 function App({request}: HydrogenRouteProps) {
   const pathname = new URL(request.normalizedUrl).pathname;
@@ -33,6 +38,11 @@ function App({request}: HydrogenRouteProps) {
           <Router>
             <FileRoutes
               basePath={countryCode ? `/${countryCode}/` : undefined}
+            />
+            <Route path="/:handle" page={<MarketingOverview />} />
+            <Route
+              path="/caterpillar-tunnel/configure"
+              page={<TunnelConfigure />}
             />
             <Route path="*" page={<NotFound />} />
           </Router>

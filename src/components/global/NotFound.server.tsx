@@ -8,19 +8,19 @@ import {
 import {Suspense} from 'react';
 import {PRODUCT_CARD_FRAGMENT} from '~/lib/fragments';
 import {Button, FeaturedCollections, PageHeader, Text} from '~/components';
-import {ProductSwimlane, Layout} from '~/components/index.server';
+import {ProductSwimlane, GenericPageLayout} from '~/components/index.server';
 import type {
   CollectionConnection,
   ProductConnection,
 } from '@shopify/hydrogen/storefront-api-types';
 
-export function NotFound({
+export const NotFound = ({
   response,
   type = 'page',
 }: {
   response?: HydrogenResponse;
   type?: string;
-}) {
+}) => {
   if (response) {
     response.status = 404;
     response.statusText = 'Not found';
@@ -30,7 +30,7 @@ export function NotFound({
   const description = `We couldn’t find the ${type} you’re looking for. Try checking the URL or heading back to the home page.`;
 
   return (
-    <Layout>
+    <GenericPageLayout>
       <PageHeader heading={heading}>
         <Text width="narrow" as="p">
           {description}
@@ -42,9 +42,9 @@ export function NotFound({
       <Suspense>
         <FeaturedSection />
       </Suspense>
-    </Layout>
+    </GenericPageLayout>
   );
-}
+};
 
 function FeaturedSection() {
   const {

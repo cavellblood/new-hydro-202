@@ -7,6 +7,7 @@ import {
   useServerAnalytics,
   useShopQuery,
 } from '@shopify/hydrogen';
+import {LayoutElement} from '~/components';
 import {GenericPageLayout} from '~/components/index.server';
 
 export default function Homepage() {
@@ -31,7 +32,11 @@ export default function Homepage() {
 function HomepageContent() {
   return (
     <>
-      <p>Content for home</p>
+      <LayoutElement>
+        <div className="flex  items-center  justify-center  py-20">
+          <div>Home Page</div>
+        </div>
+      </LayoutElement>
     </>
   );
 }
