@@ -1,12 +1,9 @@
 import {history} from 'instantsearch.js/es/lib/routers';
 
 const router = history({
-  windowTitle({query}) {
-    const queryTitle = query
-      ? `Results for "${query}"`
-      : 'Configure your Caterpillar Tunnel';
-
-    return queryTitle;
+  windowTitle(routeState) {
+    const title = `Configure your ${routeState.width} Caterpillar Tunnel | Farmers Friend`;
+    return title;
   },
 
   createURL({qsModule, routeState, location}) {
@@ -27,6 +24,9 @@ const router = history({
     if (routeState.bowSpacing) {
       queryParameters.bowSpacing = routeState.bowSpacing;
     }
+    if (routeState.liftKit) {
+      queryParameters.liftKit = routeState.liftKit;
+    }
 
     const queryString = qsModule.stringify(queryParameters, {
       addQueryPrefix: true,
@@ -39,7 +39,7 @@ const router = history({
   },
 
   parseURL({qsModule, location}) {
-    const {width, style, length, bowSpacing} = qsModule.parse(
+    const {width, style, length, bowSpacing, liftKit} = qsModule.parse(
       location.search.slice(1),
       {
         comma: true,
@@ -54,6 +54,7 @@ const router = history({
       style,
       length,
       bowSpacing,
+      liftKit,
     };
   },
 });
@@ -69,6 +70,7 @@ const stateMapping = {
       length: indexUiState.menu && indexUiState.menu['named_tags.length'],
       bowSpacing:
         indexUiState.menu && indexUiState.menu['named_tags.bow-spacing'],
+      liftKit: indexUiState.menu && indexUiState.menu['named_tags.lift-kit'],
     };
   },
 
@@ -80,6 +82,7 @@ const stateMapping = {
           'named_tags.style': routeState.style,
           'named_tags.length': routeState.length,
           'named_tags.bow-spacing': routeState.bowSpacing,
+          'named_tags.lift-kit': routeState.liftKit,
         },
       },
     };

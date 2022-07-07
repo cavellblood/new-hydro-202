@@ -19,6 +19,7 @@ import {
   NotFound,
   MarketingOverview,
   TunnelConfigure,
+  TunnelChoose,
 } from '~/components/index.server';
 
 function App({request}: HydrogenRouteProps) {
@@ -44,6 +45,7 @@ function App({request}: HydrogenRouteProps) {
               path="/caterpillar-tunnel/configure"
               page={<TunnelConfigure />}
             />
+            <Route path="/caterpillar-tunnel/choose" page={<TunnelChoose />} />
             <Route path="*" page={<NotFound />} />
           </Router>
         </CartProvider>

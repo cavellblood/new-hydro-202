@@ -109,6 +109,57 @@ function Hit({hit}) {
   );
 }
 
+const HitDetails = ({hit}) => {
+  return (
+    <>
+      <div className="flex justify-between">
+        <div className="flex flex-col justify-between">
+          <div className="flex items-baseline space-x-4">
+            <h3 className="text-xl font-bold text-brand-500 desk:text-4xl">
+              {hit.named_tags.length} {titleCase(hit.named_tags.style)}
+            </h3>
+            <p className="font-mono text-base text-gray-400">{hit.sku}</p>
+          </div>
+          <div className="flex items-center justify-start space-x-4 divide-x">
+            <div className="font-semibold text-brand-500">In Stock</div>
+            <div className="pl-4">
+              <span className="font-semibold">Ships in:</span> 3–4 weeks
+            </div>
+          </div>
+          <p className="inline-flex items-center font-semibold text-gray-800">
+            {hit.weight} shipping weight
+          </p>
+        </div>
+        <div className="flex flex-col items-end">
+          <div className="my-2 text-xl font-normal text-gray-800 xl:text-4xl">
+            {hit.variants_count == 1 ? (
+              <Money data={{amount: String(hit.price), currencyCode: 'USD'}} />
+            ) : (
+              <>
+                <Money
+                  data={{
+                    amount: String(hit.variants_min_price),
+                    currencyCode: 'USD',
+                  }}
+                  className="text-lg font-semibold text-gray-900"
+                />
+                <span className="text-sm">
+                  and{' '}
+                  <span className="font-bold">{hit.variants_count - 1}</span>{' '}
+                  other {hit.variants_count - 1 == 1 ? 'option' : 'options'}
+                </span>
+              </>
+            )}
+          </div>
+          <button className="relative inline-flex flex-1 flex-grow-0 items-center justify-center rounded-lg border border-brand-500 bg-brand-500 px-4 py-2 text-base font-medium text-white transition-colors duration-150 hover:bg-brand-500 focus:z-10 focus:outline-none focus:ring-4 focus:ring-brand-300 focus:ring-opacity-30 lg:text-lg xl:text-xl">
+            Add to cart
+          </button>
+        </div>
+      </div>
+    </>
+  );
+};
+
 const menuClasses = {
   count: 'text-stone-500  text-sm  font-medium',
   link: 'flex items-center  justify-between  cursor-pointer  px-4 py-3',
@@ -146,7 +197,7 @@ function CustomMenu(props) {
     <ul className="space-y-2">
       {items.map((item, index) => (
         <li key={item.label}>
-          <label className="relative block cursor-pointer rounded-lg border bg-white  px-6 py-4 shadow-sm focus:outline-none sm:flex sm:justify-between">
+          <label className="relative block cursor-pointer rounded-lg border bg-white  px-6 py-4 leading-7 shadow-sm focus:outline-none sm:flex  sm:justify-between">
             <input
               type="radio"
               name="testing"
@@ -156,10 +207,12 @@ function CustomMenu(props) {
               onChange={(event) => refine(event.currentTarget.value)}
             />
             <span className="flex items-center">
-              <span className="flex flex-col text-sm">
+              <span className="flex flex-col">
                 <span
                   id={props.attribute + '-' + index + '-label'}
-                  className="font-medium text-gray-900"
+                  className={`text-gray-900 ${
+                    item.isRefined ? 'font-bold' : 'font-medium'
+                  }`}
                 >
                   {item.label}
                 </span>
@@ -187,7 +240,14 @@ function CustomMenu(props) {
 function Panel({header, footer, children}) {
   return (
     <div className="">
-      {header && <div className="mb-1  font-semibold">{header}</div>}
+      {header && (
+        <div className="mb-1  mt-6  flex  justify-between">
+          <div className="text-lg  font-semibold">{header}</div>
+          <div className="cursor-pointer  text-sm  text-brand-500  hover:underline">
+            Learn more
+          </div>
+        </div>
+      )}
       <div className="">{children}</div>
       {footer && <div className="">{footer}</div>}
     </div>
@@ -214,10 +274,24 @@ export const TunnelResults = () => {
         routing={searchRouting}
         indexName={index}
       >
-        <Configure hitsPerPage={20} filters={'tags:TUN'} />
+        <Configure hitsPerPage={1} filters={'tags:TUN'} />
         <div>{/* <CurrentRefinements /> */}</div>
-        <div className="flex">
-          <div className="mr-6  w-[238px]">
+        <div className="flex  justify-center  space-x-14">
+          <div className="mb-16  w-[30rem]">
+            <Hits
+              classNames={{
+                root: 'mb-8',
+                list: '-mx-px',
+                item: ' rounded-lg overflow-hidden border border-gray-100 bg-white hover:border-brand-500',
+              }}
+              hitComponent={Hit}
+            />
+          </div>
+          <div className="mr-6  w-[30rem]">
+            <div>
+              <Hits hitComponent={HitDetails} />
+            </div>
+            <hr className="my-6 border-t border-gray-200"></hr>
             <div className="space-y-6">
               <Panel header="Width">
                 <CustomMenu
@@ -267,9 +341,9 @@ export const TunnelResults = () => {
                   }}
                 />
               </Panel>
-              <Panel header="Bow Spacing">
-                <Menu
-                  attribute="named_tags.bow-spacing"
+              <Panel header="Lift Kit">
+                <CustomMenu
+                  attribute="named_tags.lift-kit"
                   sortBy={['name:asc']}
                   transformItems={(items) => {
                     return items.map((item) => ({
@@ -277,20 +351,9 @@ export const TunnelResults = () => {
                       label: titleCase(item.label),
                     }));
                   }}
-                  classNames={menuClasses}
                 />
               </Panel>
             </div>
-          </div>
-          <div className="mb-16  flex-1">
-            <Hits
-              classNames={{
-                root: 'mb-8',
-                list: '-mx-px grid grid-cols-2 sm:mx-0 md:grid-cols-3 lg:grid-cols-4',
-                item: 'ml-2  mb-2 rounded-lg overflow-hidden border border-gray-100 bg-white hover:border-brand-500',
-              }}
-              hitComponent={Hit}
-            />
           </div>
         </div>
       </InstantSearch>

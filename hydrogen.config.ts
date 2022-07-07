@@ -9,7 +9,7 @@ export default defineConfig({
     defaultLanguageCode: 'EN',
     defaultCountryCode: 'US',
     storeDomain: 'farmers-friend.myshopify.com',
-    storefrontToken: '71c2b3d50ebc314c389a6979c7bdaf1c',
+    storefrontToken: 'e5672a0423776bab229465d75c6868fb',
     storefrontApiVersion: '2022-07',
   }),
   session: CookieSessionStorage('__session', {

@@ -56,7 +56,7 @@ export const TunnelConfigure = ({response}: {response?: HydrogenResponse}) => {
             srcSet={heroImage.srcset}
           ></source>
           <Image
-            className="desk:h-192  lazyautosizes  lazyload  h-96  w-full  bg-grey-lightest object-cover lap:h-[48rem]"
+            className="desk:h-192  lazyautosizes  lazyload  h-96  w-full  bg-grey-lightest object-cover  lap:h-96"
             loading="lazy"
             style={{
               objectPosition:
