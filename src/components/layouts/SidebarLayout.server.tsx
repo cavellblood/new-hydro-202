@@ -1,5 +1,5 @@
 import {Link} from '@shopify/hydrogen';
-import { GenericPageLayout } from '~/components/index.server';
+import {GenericPageLayout} from '~/components/index.server';
 import {LayoutElement} from '~/components';
 
 export default function SidebarLayout({children, header, sidebar, bodyJs}) {
@@ -56,8 +56,7 @@ const SidebarNav = ({nav}) => {
       </ul>
     </nav>
   );
-}
-
+};
 
 const DefaultHeader = ({data}) => {
   return (

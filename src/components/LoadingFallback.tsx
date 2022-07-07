@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import {Suspense} from 'react';
 import {SiteHeader} from '~/components';
 // import {SiteFooter} from '@/components/SiteFooter.client';
 import {LayoutElement} from '~/components';
@@ -81,8 +81,7 @@ const FooterNavigation = () => {
 export const LoadingFallback = () => {
   return (
     <BodyHtml>
-      <Suspense fallback={ null}>
-      </Suspense>
+      <Suspense fallback={null}></Suspense>
       <div id="content-container">
         <main role="main">
           <LayoutElement>

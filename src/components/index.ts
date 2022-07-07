@@ -5,5 +5,6 @@ export * from './elements/index';
 export * from './global/index';
 export * from './layouts/index';
 export * from './marketing/index';
+export * from './modules/index';
 export * from './sections/index';
 export {LoadingFallback} from './LoadingFallback';

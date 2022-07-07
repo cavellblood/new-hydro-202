@@ -1,37 +1,38 @@
-import {CacheLong, gql, Seo, useShopQuery} from '@shopify/hydrogen';
+import {Seo} from '@shopify/hydrogen';
+import groq from 'groq';
+import useSanityQuery from '../hooks/useSanityQuery';
 
 /**
- * A server component that fetches a `shop.name` and sets default values and templates for every page on a website
+ * A server component that fetches global seo settings from your Sanity dataset
+ * and sets default values and templates for every page.
  */
-export function DefaultSeo() {
-  const {
-    data: {
-      shop: {name, description},
+
+export default function DefaultSeo() {
+  const {data: seo} = useSanityQuery<{
+    description?: string;
+    title: string;
+  }>({
+    hydrogenQueryOptions: {
+      preload: '*',
     },
-  } = useShopQuery({
-    query: SHOP_QUERY,
-    cache: CacheLong(),
-    preload: '*',
+    query: QUERY_SANITY,
   });
 
   return (
-    // @ts-ignore TODO: Fix types
+    // @ts-expect-error <Seo> shouldn't require a value for data that extends the `Shop` type
     <Seo
-      type="defaultSeo"
       data={{
-        title: name,
-        description,
-        titleTemplate: `%s · ${name}`,
+        description: seo?.description,
+        title: seo?.title,
+        titleTemplate: `%s · ${seo?.title}`,
       }}
+      type="defaultSeo"
     />
   );
 }
 
-const SHOP_QUERY = gql`
-  query shopInfo {
-    shop {
-      name
-      description
-    }
+const QUERY_SANITY = groq`
+  *[_type == 'settings'][0].seo {
+    ...
   }
 `;

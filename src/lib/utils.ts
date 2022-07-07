@@ -1,11 +1,16 @@
 import React, {useCallback} from 'react';
-import {useServerProps} from '@shopify/hydrogen';
+import {useServerProps, OptionWithValues} from '@shopify/hydrogen';
 import {
   Menu,
   MenuItem,
   MoneyV2,
+  Product,
   UserError,
 } from '@shopify/hydrogen/storefront-api-types';
+
+import type {SanityModule} from '../types';
+
+import pluralize from 'pluralize';
 
 // @ts-expect-error types not available
 import typographicBase from 'typographic-base';
@@ -271,4 +276,45 @@ export function passwordValidation(password: HTMLInputElement) {
   }
 
   return 'Password must be at least 6 characters';
+}
+
+export const hasMultipleProductOptions = (options?: OptionWithValues[]) => {
+  const firstOption = options?.[0];
+  if (!firstOption) {
+    return false;
+  }
+
+  return (
+    firstOption.name !== 'Title' && firstOption.values[0] !== 'Default Title'
+  );
+};
+
+export const getProductOptionString = (options?: OptionWithValues[]) => {
+  return options
+    ?.map(({name, values}) => pluralize(name, values.length, true))
+    .join(' / ');
+};
+
+const MODULE_INTERVAL = 2;
+const START_INDEX = 2;
+
+export function combineProductsAndModules({
+  modules,
+  products,
+}: {
+  products: Product[];
+  modules?: SanityModule[];
+}) {
+  let moduleIndex = 0;
+  return products.reduce<(SanityModule | Product)[]>((acc, val, index) => {
+    if (index >= START_INDEX && index % MODULE_INTERVAL === 0) {
+      const nextModule = modules?.[moduleIndex];
+      if (nextModule) {
+        acc.push(nextModule);
+        moduleIndex += 1;
+      }
+    }
+    acc.push(val);
+    return acc;
+  }, []);
 }
