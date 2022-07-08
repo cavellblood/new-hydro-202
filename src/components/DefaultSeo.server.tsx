@@ -7,7 +7,7 @@ import useSanityQuery from '../hooks/useSanityQuery';
  * and sets default values and templates for every page.
  */
 
-export default function DefaultSeo() {
+export const DefaultSeo = () => {
   const {data: seo} = useSanityQuery<{
     description?: string;
     title: string;
@@ -29,7 +29,7 @@ export default function DefaultSeo() {
       type="defaultSeo"
     />
   );
-}
+};
 
 const QUERY_SANITY = groq`
   *[_type == 'settings'][0].seo {

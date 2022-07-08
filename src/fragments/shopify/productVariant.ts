@@ -3,6 +3,7 @@ import {gql} from '@shopify/hydrogen';
 export const PRODUCT_VARIANT_FIELDS = gql`
   fragment ProductVariantFields on ProductVariant {
     availableForSale
+    sku
     compareAtPriceV2 {
       currencyCode
       amount
