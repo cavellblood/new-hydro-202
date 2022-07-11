@@ -2,7 +2,7 @@ import {history} from 'instantsearch.js/es/lib/routers';
 
 const router = history({
   windowTitle(routeState) {
-    const title = `Configure your ${routeState.width} Caterpillar Tunnel | Farmers Friend`;
+    const title = `Configure your Caterpillar Tunnel | Farmers Friend`;
     return title;
   },
 

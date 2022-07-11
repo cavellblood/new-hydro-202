@@ -1,4 +1,5 @@
 import {AlgoliaSearchClient} from '~/components/algolia/SearchClient';
+import algoliasearch from 'algoliasearch/lite';
 import {
   InstantSearch,
   SearchBox,
@@ -11,6 +12,8 @@ import {
   useClearRefinements,
   Pagination,
   useMenu,
+  useMenuProps,
+  useCurrentRefinements,
 } from 'react-instantsearch-hooks-web';
 import Imgix, {buildURL} from 'react-imgix';
 import 'lazysizes';
@@ -18,7 +21,11 @@ import 'lazysizes/plugins/attrchange/ls.attrchange';
 import {searchRouting} from './tunnel-configure-routing';
 
 import {Money} from '@shopify/hydrogen';
+import React from 'react';
 const imgixDomain = 'https://farmersfriend-shopify.imgix.net/';
+
+const index = 'shopify_products';
+const AlgoliaIndex = AlgoliaSearchClient.initIndex(index);
 
 function Hit({hit}) {
   const version =
@@ -181,65 +188,105 @@ function ClearRefinementsButton(props) {
   );
 }
 
-function CustomMenu(props) {
-  const {
-    items,
-    createURL,
-    refine,
-    canRefine,
-    isShowingMore,
-    toggleShowMore,
-    canToggleShowMore,
-    sendEvent,
-  } = useMenu(props);
+const transformItems = (items, results) => {
+  return items.map((item) => ({
+    ...item,
+    label: titleCase(item.label),
+  }));
+};
+
+const getPriceDelta = (item, uid) => {
+  const priceDeltas = document.querySelectorAll(
+    '.ais-RefinementList-container .price-delta',
+  );
+
+  for (let index = 0; index < priceDeltas.length; index++) {
+    const element = priceDeltas[index];
+    element.innerHTML = '';
+  }
+  AlgoliaIndex.search('tunnel', {hitsPerPage: 1, filters: 'tags:TUN'}).then(
+    ({hits}) => {
+      const priceDeltaEl = document.querySelector('.' + uid + ' .price-delta');
+      if (priceDeltaEl) {
+        priceDeltaEl.innerHTML = hits[0].price;
+      }
+    },
+  );
+};
+
+function CustomMenu(props: useMenuProps) {
+  const {items, refine, createURL} = useMenu(props);
 
   return (
-    <ul className="space-y-2">
-      {items.map((item, index) => (
-        <li key={item.label}>
-          <label className="relative block cursor-pointer rounded-lg border bg-white  px-6 py-4 leading-7 shadow-sm focus:outline-none sm:flex  sm:justify-between">
-            <input
-              type="radio"
-              name="testing"
-              className="sr-only"
-              aria-labelledby={props.attribute + '-' + index + '-label'}
-              value={item.value}
-              onChange={(event) => refine(event.currentTarget.value)}
-            />
-            <span className="flex items-center">
-              <span className="flex flex-col">
-                <span
-                  id={props.attribute + '-' + index + '-label'}
-                  className={`text-gray-900 ${
-                    item.isRefined ? 'font-bold' : 'font-medium'
-                  }`}
-                >
-                  {item.label}
+    <ul
+      className="ais-RefinementList space-y-2"
+      data-search-attribute={props.attribute}
+    >
+      {items.map((item, index) => {
+        const uid =
+          'ais-RefinementList-item-' +
+          props.attribute.split('.')[1] +
+          '-' +
+          index;
+        return (
+          <li key={item.label} className={`ais-RefinementList-item ${uid}`}>
+            <label className="ais-RefinementList-label relative block cursor-pointer rounded-lg border bg-white  px-6 py-4 leading-7 shadow-sm focus:outline-none sm:flex  sm:justify-between">
+              <input
+                type="radio"
+                name="testing"
+                className="ais-RefinementList-checkbox  sr-only"
+                aria-labelledby={props.attribute + '-' + index + '-label'}
+                value={item.value}
+                onClick={(event) => refine(event.currentTarget.value)}
+                defaultChecked={item.isRefined ? true : false}
+              />
+              <span className="flex  w-full  items-center">
+                <span className="flex  w-full  justify-between">
+                  <span
+                    id={props.attribute + '-' + index + '-label'}
+                    className={`ais-RefinementList-text text-gray-900 ${
+                      item.isRefined ? 'font-bold' : 'font-medium'
+                    }`}
+                  >
+                    {item.label}
+                  </span>
+                  <span className="price-delta">
+                    {''}
+                    {!item.isRefined ? getPriceDelta(item, uid) : ''}
+                  </span>
                 </span>
               </span>
-            </span>
-            {/* <!--
-        Active: "border", Not Active: "border-2"
-        Checked: "border-indigo-500", Not Checked: "border-transparent"
-      --> */}
-            <span
-              className={`pointer-events-none absolute -inset-px rounded-lg  border-2 ${
-                item.isRefined
-                  ? 'border-brand-500  ring-1  ring-brand-500'
-                  : 'border-transparent'
-              }`}
-              aria-hidden="true"
-            ></span>
-          </label>
-        </li>
-      ))}
+              {/* <!--
+          Active: "border", Not Active: "border-2"
+          Checked: "border-indigo-500", Not Checked: "border-transparent"
+        --> */}
+              <span
+                className={`pointer-events-none absolute -inset-px rounded-lg  border-2 ${
+                  item.isRefined
+                    ? 'border-brand-500  ring-1  ring-brand-500'
+                    : 'border-transparent'
+                }`}
+                aria-hidden="true"
+              ></span>
+            </label>
+          </li>
+        );
+      })}
     </ul>
   );
 }
 
-function Panel({header, footer, children}) {
+function Panel({
+  header,
+  footer,
+  children,
+}: {
+  header: any;
+  footer?: any;
+  children: React.ReactNode;
+}) {
   return (
-    <div className="">
+    <div className="ais-RefinementList-panel">
       {header && (
         <div className="mb-1  mt-6  flex  justify-between">
           <div className="text-lg  font-semibold">{header}</div>
@@ -248,13 +295,11 @@ function Panel({header, footer, children}) {
           </div>
         </div>
       )}
-      <div className="">{children}</div>
+      <div className="ais-RefinementList-container">{children}</div>
       {footer && <div className="">{footer}</div>}
     </div>
   );
 }
-
-const index = 'shopify_products';
 
 function titleCase(str) {
   return str
@@ -265,6 +310,11 @@ function titleCase(str) {
     })
     .join(' ');
 }
+
+const onStateChange = ({uiState, setUiState}) => {
+  console.log('state change');
+  setUiState(uiState);
+};
 
 export const TunnelResults = () => {
   return (
@@ -297,60 +347,35 @@ export const TunnelResults = () => {
                 <CustomMenu
                   attribute="named_tags.width"
                   sortBy={['name:asc']}
-                  transformItems={(items) => {
-                    return items.map((item) => ({
-                      ...item,
-                      label: titleCase(item.label),
-                    }));
-                  }}
+                  transformItems={transformItems}
                 />
               </Panel>
               <Panel header="Style">
                 <CustomMenu
                   attribute="named_tags.style"
                   sortBy={['name:asc']}
-                  transformItems={(items) => {
-                    return items.map((item) => ({
-                      ...item,
-                      label: titleCase(item.label),
-                    }));
-                  }}
+                  transformItems={transformItems}
                 />
               </Panel>
               <Panel header="Length">
                 <CustomMenu
                   attribute="named_tags.length"
                   sortBy={['name:asc']}
-                  transformItems={(items) => {
-                    return items.map((item) => ({
-                      ...item,
-                      label: titleCase(item.label),
-                    }));
-                  }}
+                  transformItems={transformItems}
                 />
               </Panel>
               <Panel header="Bow Spacing">
                 <CustomMenu
                   attribute="named_tags.bow-spacing"
                   sortBy={['name:asc']}
-                  transformItems={(items) => {
-                    return items.map((item) => ({
-                      ...item,
-                      label: titleCase(item.label),
-                    }));
-                  }}
+                  transformItems={transformItems}
                 />
               </Panel>
               <Panel header="Lift Kit">
                 <CustomMenu
                   attribute="named_tags.lift-kit"
                   sortBy={['name:asc']}
-                  transformItems={(items) => {
-                    return items.map((item) => ({
-                      ...item,
-                      label: titleCase(item.label),
-                    }));
-                  }}
+                  transformItems={transformItems}
                 />
               </Panel>
             </div>
