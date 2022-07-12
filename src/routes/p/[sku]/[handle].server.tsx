@@ -101,7 +101,7 @@ export default function ProductRoute() {
           <LayoutElement>
             <div className="pt-16 pb-24 sm:pt-24 sm:pb-32 lap-wide:grid lap-wide:grid-cols-12 lap-wide:gap-x-8">
               {/* Product details */}
-              <div className="lap-wide:col-span-7 lap-wide:max-w-lg  lap-wide:self-end">
+              <div className="lap-wide:col-span-7 lap-wide:max-w-lg  lap-wide:self-start">
                 <ProductDetails
                   initialVariantId={initialVariant?.id}
                   sanityProduct={sanityProduct}
@@ -114,7 +114,6 @@ export default function ProductRoute() {
                     'mt-6  lap-wide:col-span-7',
                   )}
                 >
-                  hello there
                   {/* Body */}
                   {sanityProduct?.body && (
                     <PortableText

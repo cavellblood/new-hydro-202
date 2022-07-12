@@ -29,6 +29,8 @@ export default function ProductCard({
   );
   const productOptions = getProductOptionString(storefrontProduct.options);
 
+  console.log(firstVariant);
+
   return (
     <div className="group relative">
       <div
@@ -40,7 +42,7 @@ export default function ProductCard({
       >
         <Link
           className="absolute top-0 left-0 h-full w-full"
-          to={`/products/${storefrontProduct.handle}`}
+          to={`/p/${firstVariant.sku}/${storefrontProduct.handle}`}
         >
           {firstVariant.image && (
             <Image
@@ -89,7 +91,7 @@ export default function ProductCard({
               'font-bold', //
               'hover:underline',
             )}
-            to={`/products/${storefrontProduct.handle}`}
+            to={`/p/${firstVariant.sku}/${storefrontProduct.handle}`}
           >
             {storefrontProduct.title}
           </Link>

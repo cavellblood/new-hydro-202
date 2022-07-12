@@ -71,7 +71,7 @@ export default function ProductGallery({storefrontProduct}: Props) {
   }
 
   return (
-    <div className="bg-lightGray relative h-screen" tabIndex={-1}>
+    <div className="bg-lightGray relative" tabIndex={-1}>
       <div className="h-full overflow-hidden" ref={emblaRef}>
         <div className="flex h-full">
           {/* Slides */}
@@ -84,7 +84,7 @@ export default function ProductGallery({storefrontProduct}: Props) {
             return (
               <MediaFile
                 // @ts-expect-error options should accept className
-                className="relative flex w-full shrink-0 grow-0 select-none object-cover"
+                className="relative flex w-full shrink-0 grow-0 select-none object-contain"
                 data={med}
                 draggable={false}
                 fetchpriority="high"
