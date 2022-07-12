@@ -202,16 +202,18 @@ const getPriceDelta = (item, uid) => {
 
   for (let index = 0; index < priceDeltas.length; index++) {
     const element = priceDeltas[index];
-    element.innerHTML = '';
+    element.classList.add('hidden');
   }
-  AlgoliaIndex.search('tunnel', {hitsPerPage: 1, filters: 'tags:TUN'}).then(
-    ({hits}) => {
-      const priceDeltaEl = document.querySelector('.' + uid + ' .price-delta');
-      if (priceDeltaEl) {
-        priceDeltaEl.innerHTML = hits[0].price;
-      }
-    },
-  );
+  AlgoliaIndex.search('tunnel', {
+    hitsPerPage: 1,
+    filters: 'tags:TUN',
+  }).then(({hits}) => {
+    const priceDeltaEl = document.querySelector('.' + uid + ' .price-delta');
+    if (priceDeltaEl) {
+      priceDeltaEl.classList.remove('hidden');
+      priceDeltaEl.innerHTML = hits[0].price;
+    }
+  });
 };
 
 function CustomMenu(props: useMenuProps) {

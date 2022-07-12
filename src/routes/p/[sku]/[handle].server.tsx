@@ -6,6 +6,7 @@ import {
   useRouteParams,
   useServerAnalytics,
   useShopQuery,
+  ProductOptionsProvider,
 } from '@shopify/hydrogen';
 import type {Product} from '@shopify/hydrogen/storefront-api-types';
 import clsx from 'clsx';
@@ -14,12 +15,15 @@ import {GenericPageLayout} from '~/components/index.server';
 import {NotFound} from '~/components/index.server';
 import PortableText from '~/components/portableText/PortableText.server';
 import ProductDetails from '~/components/product/Details.client';
+import ProductGallery from '~/components/product/Gallery.client';
 import RelatedProducts from '~/components/product/RelatedProducts.server';
 import {PRODUCT_PAGE} from '~/fragments/sanity/pages/product';
 import {PRODUCT_FIELDS} from '~/fragments/shopify/product';
 import {PRODUCT_VARIANT_FIELDS} from '~/fragments/shopify/productVariant';
 import useSanityQuery from '~/hooks/useSanityQuery';
 import type {ProductWithNodes, SanityProductPage} from '~/types';
+
+import {LayoutElement} from '~/components';
 
 type ShopifyPayload = {
   product: Pick<
@@ -87,58 +91,80 @@ export default function ProductRoute() {
   const initialVariant = storefrontProduct.variants.nodes[0];
 
   return (
-    <GenericPageLayout>
-      <div className="relative w-full">
-        <ProductDetails
-          initialVariantId={initialVariant?.id}
-          sanityProduct={sanityProduct}
-          storefrontProduct={storefrontProduct}
-        />
+    <ProductOptionsProvider
+      data={storefrontProduct}
+      initialVariantId={initialVariant?.id}
+    >
+      <GenericPageLayout>
+        <section className="relative">
+          <div className="absolute  bottom-0  h-96  w-full   bg-gradient-to-t  from-white to-transparent"></div>
+          <LayoutElement>
+            <div className="pt-16 pb-24 sm:pt-24 sm:pb-32 lap-wide:grid lap-wide:grid-cols-12 lap-wide:gap-x-8">
+              {/* Product details */}
+              <div className="lap-wide:col-span-7 lap-wide:max-w-lg  lap-wide:self-end">
+                <ProductDetails
+                  initialVariantId={initialVariant?.id}
+                  sanityProduct={sanityProduct}
+                  storefrontProduct={storefrontProduct}
+                />
 
-        <div
-          className={clsx(
-            'w-full', //
-            'lg:w-[calc(100%-315px)]',
-          )}
-        >
-          {/* Body */}
-          {sanityProduct?.body && (
-            <PortableText
-              blocks={sanityProduct.body}
-              className={clsx(
-                'max-w-[660px] px-4 pb-24 pt-8', //
-                'md:px-8',
-              )}
+                <div
+                  className={clsx(
+                    'w-full', //
+                    'mt-6  lap-wide:col-span-7',
+                  )}
+                >
+                  hello there
+                  {/* Body */}
+                  {sanityProduct?.body && (
+                    <PortableText
+                      blocks={sanityProduct.body}
+                      className={clsx(
+                        'max-w-[660px] px-4 pb-24 pt-8', //
+                        'md:px-8',
+                      )}
+                      colorTheme={sanityProduct?.colorTheme}
+                    />
+                  )}
+                </div>
+              </div>
+              <div className="lap-wide:col-span-5">
+                {/* Gallery */}
+                <ProductGallery storefrontProduct={storefrontProduct} />
+              </div>
+            </div>
+          </LayoutElement>
+        </section>
+
+        <section className="bg-white">
+          <LayoutElement>
+            <RelatedProducts
               colorTheme={sanityProduct?.colorTheme}
+              storefrontProduct={storefrontProduct}
             />
-          )}
-        </div>
-      </div>
+          </LayoutElement>
+        </section>
 
-      <RelatedProducts
-        colorTheme={sanityProduct?.colorTheme}
-        storefrontProduct={storefrontProduct}
-      />
-
-      <Seo
-        data={{
-          ...(sanitySeo.image
-            ? {
-                featuredImage: {
-                  height: sanitySeo.image.height,
-                  url: sanitySeo.image.url,
-                  width: sanitySeo.image.width,
-                },
-              }
-            : {}),
-          seo: {
-            description: sanitySeo.description,
-            title: sanitySeo.title,
-          },
-        }}
-        type="product"
-      />
-    </GenericPageLayout>
+        <Seo
+          data={{
+            ...(sanitySeo.image
+              ? {
+                  featuredImage: {
+                    height: sanitySeo.image.height,
+                    url: sanitySeo.image.url,
+                    width: sanitySeo.image.width,
+                  },
+                }
+              : {}),
+            seo: {
+              description: sanitySeo.description,
+              title: sanitySeo.title,
+            },
+          }}
+          type="product"
+        />
+      </GenericPageLayout>
+    </ProductOptionsProvider>
   );
 }
 

@@ -36,8 +36,8 @@ export default function RelatedProducts({
   return (
     <div
       className={clsx(
-        'rounded-t-xl px-4 py-8', //
-        'md:px-8',
+        'rounded-t-xl py-8', //
+        '',
       )}
       style={{background: colorTheme?.background || 'white'}}
     >

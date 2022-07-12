@@ -11,11 +11,11 @@ type Props = {
   storefrontProduct: ProductWithNodes;
 };
 
-function ProductPrices({
+export const ProductPrices = ({
   storefrontProduct,
 }: {
   storefrontProduct: ProductWithNodes;
-}) {
+}) => {
   const {selectedVariant} = useProductOptions();
 
   if (!storefrontProduct || !selectedVariant) {
@@ -33,7 +33,7 @@ function ProductPrices({
       <ProductPrice data={storefrontProduct} variantId={selectedVariant.id} />
     </div>
   );
-}
+};
 
 export default function ProductWidget({
   sanityProduct,
