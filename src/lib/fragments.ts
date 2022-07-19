@@ -46,6 +46,7 @@ export const PRODUCT_CARD_FRAGMENT = gql`
     variants(first: 1) {
       nodes {
         id
+        sku
         image {
           url
           altText

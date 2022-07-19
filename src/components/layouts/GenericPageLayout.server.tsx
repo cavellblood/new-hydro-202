@@ -5,8 +5,12 @@ import {SiteFooter} from '~/components/index.server';
 import {SiteHeader} from '~/components';
 import {CartDrawer} from '~/components';
 import React, {ReactNode, Suspense} from 'react';
+import {Menu, Shop} from '@shopify/hydrogen/storefront-api-types';
+import {parseMenu} from '../../../src-new/lib/utils';
 
 const SHOP_NAME_FALLBACK = 'Farmers Friend';
+const HEADER_MENU_HANDLE = 'hydrogen-main-nav';
+const FOOTER_MENU_HANDLE = 'hydrogen-footer-nav';
 
 export function GenericPageLayout({
   children,
@@ -32,23 +36,28 @@ const Html = ({
   children: React.ReactNode;
   overlayNav: boolean;
 }) => {
-  const {data} = useShopQuery({
-    query: QUERY,
-    cache: CacheLong(),
+  const {data} = useShopQuery<{
+    shop: Shop;
+    mainNav: Menu;
+    footerNav: Menu;
+  }>({
+    query: SHOP_QUERY,
     variables: {
-      mainNavHandle: 'hydrogen-main-nav',
-      footerNavHandle: 'hydrogen-footer-nav',
+      mainNavHandle: HEADER_MENU_HANDLE,
+      footerNavHandle: FOOTER_MENU_HANDLE,
     },
+    cache: CacheLong(),
     preload: '*',
   });
-  const storeName = data ? data.shop.name : '';
-  const mainNav = data ? data.mainNav : '';
-  const footerNav = data ? data.footerNav : '';
+
+  const storeName = data ? data.shop.name : SHOP_NAME_FALLBACK;
+  const mainNav = data?.mainNav ? parseMenu(data.mainNav) : undefined;
+  const footerNav = data?.footerNav ? parseMenu(data.footerNav) : undefined;
 
   return (
     <BodyHtml>
       <Suspense fallback={null}>
-        <SiteHeader isOverlay={overlayNav} />
+        <SiteHeader isOverlay={overlayNav} menu={mainNav} />
       </Suspense>
       <div id="content-container">
         <main role="main">{children}</main>
@@ -62,8 +71,8 @@ const Js = ({children}: {children: React.ReactNode}) => {
   return <BodyJs>{children}</BodyJs>;
 };
 
-const QUERY = gql`
-  fragment menuItemFields on MenuItem {
+const SHOP_QUERY = gql`
+  fragment MenuItem on MenuItem {
     title
     type
     url
@@ -80,11 +89,11 @@ const QUERY = gql`
       handle
       id
       items {
-        ...menuItemFields
+        ...MenuItem
         items {
-          ...menuItemFields
+          ...MenuItem
           items {
-            ...menuItemFields
+            ...MenuItem
           }
         }
       }
@@ -94,9 +103,9 @@ const QUERY = gql`
       handle
       id
       items {
-        ...menuItemFields
+        ...MenuItem
         items {
-          ...menuItemFields
+          ...MenuItem
         }
       }
     }

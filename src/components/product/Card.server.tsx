@@ -29,8 +29,6 @@ export default function ProductCard({
   );
   const productOptions = getProductOptionString(storefrontProduct.options);
 
-  console.log(firstVariant);
-
   return (
     <div className="group relative">
       <div
@@ -41,12 +39,12 @@ export default function ProductCard({
         ])}
       >
         <Link
-          className="absolute top-0 left-0 h-full w-full"
+          className=" top-0 left-0 h-full w-full"
           to={`/p/${firstVariant.sku}/${storefrontProduct.handle}`}
         >
           {firstVariant.image && (
             <Image
-              className="absolute h-full w-full transform bg-cover bg-center object-cover object-center ease-in-out"
+              className=" h-full w-full transform bg-cover bg-center object-cover object-center ease-in-out"
               data={firstVariant.image}
               loaderOptions={{crop: 'center'}}
             />

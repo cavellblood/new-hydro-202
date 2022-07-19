@@ -53,7 +53,10 @@ export function ProductCard({
   const styles = clsx('grid gap-6', className);
 
   return (
-    <Link onClick={onClick} to={`/p/${product.handle}`}>
+    <Link
+      onClick={onClick}
+      to={`/p/${product.variants.nodes[0].sku}/${product.handle}`}
+    >
       <div className={styles}>
         <div className="card-image aspect-[4/5] bg-primary/5">
           <Text
