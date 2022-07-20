@@ -50,25 +50,15 @@ export function ProductCard({
     cardLabel = 'New';
   }
 
-  const styles = clsx('grid gap-6', className);
+  const styles = clsx('grid gap-6 relative', className);
 
   return (
-    <Link
-      onClick={onClick}
-      to={`/p/${product.variants.nodes[0].sku}/${product.handle}`}
-    >
-      <div className={styles}>
-        <div className="card-image aspect-[4/5] bg-primary/5">
-          <Text
-            as="label"
-            size="fine"
-            className="text-notice absolute top-0 right-0 m-4 text-right"
-          >
-            {cardLabel}
-          </Text>
+    <>
+      <div className="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white">
+        <div className="aspect-w-3 aspect-h-4 bg-gray-200 group-hover:opacity-75 sm:aspect-none sm:h-96">
           {image && (
             <Image
-              className="fadeIn aspect-[4/5] w-full object-cover"
+              className="h-full w-full object-cover object-center sm:h-full sm:w-full"
               widths={[320]}
               sizes="320px"
               loaderOptions={{
@@ -84,16 +74,26 @@ export function ProductCard({
             />
           )}
         </div>
-        <div className="grid gap-1">
-          <Text
-            className="w-full overflow-hidden text-ellipsis whitespace-nowrap "
-            as="h3"
-          >
-            {product.title}
-          </Text>
-          <div className="flex gap-4">
-            <Text className="flex gap-4">
-              <Money withoutTrailingZeros data={price!} />
+        <div className="flex flex-1 flex-col space-y-2 p-4">
+          <h3 className="text-sm font-medium text-gray-900">
+            <Link
+              onClick={onClick}
+              to={`/p/${product.variants.nodes[0].sku}/${product.handle}`}
+            >
+              <span aria-hidden="true" className="absolute inset-0"></span>
+              <Text
+                className="w-full overflow-hidden text-ellipsis whitespace-nowrap "
+                as="h3"
+              >
+                {product.title}
+              </Text>
+            </Link>
+          </h3>
+          {/* <p className="text-sm text-gray-500">Get the full lineup of our Basic Tees. Have a fresh shirt all week, and an extra for laundry day.</p> */}
+          <div className="flex flex-1 flex-col justify-end">
+            {/* <p className="text-sm italic text-gray-500">8 colors</p> */}
+            <Text as="p" className="text-lg font-medium text-gray-900">
+              <Money data={price!} />
               {isDiscounted(price as MoneyV2, compareAtPrice as MoneyV2) && (
                 <CompareAtPrice
                   className={'opacity-50'}
@@ -104,7 +104,7 @@ export function ProductCard({
           </div>
         </div>
       </div>
-    </Link>
+    </>
   );
 }
 
