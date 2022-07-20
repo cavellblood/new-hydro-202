@@ -54,8 +54,8 @@ export function ProductCard({
 
   return (
     <>
-      <div className="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white">
-        <div className="aspect-w-3 aspect-h-4 bg-gray-200 group-hover:opacity-75 sm:aspect-none sm:h-96">
+      <div className="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white  shadow-soft  hover:border-brand-500">
+        <figure className="aspect-h-3 aspect-w-4 bg-gray-200 group-hover:opacity-75">
           {image && (
             <Image
               className="h-full w-full object-cover object-center sm:h-full sm:w-full"
@@ -64,8 +64,6 @@ export function ProductCard({
               loaderOptions={{
                 crop: 'center',
                 scale: 2,
-                width: 320,
-                height: 400,
               }}
               // @ts-ignore Stock type has `src` as optional
               data={image}
@@ -73,7 +71,7 @@ export function ProductCard({
               loading={loading}
             />
           )}
-        </div>
+        </figure>
         <div className="flex flex-1 flex-col space-y-2 p-4">
           <h3 className="text-sm font-medium text-gray-900">
             <Link
@@ -89,18 +87,17 @@ export function ProductCard({
               </Text>
             </Link>
           </h3>
-          {/* <p className="text-sm text-gray-500">Get the full lineup of our Basic Tees. Have a fresh shirt all week, and an extra for laundry day.</p> */}
           <div className="flex flex-1 flex-col justify-end">
             {/* <p className="text-sm italic text-gray-500">8 colors</p> */}
-            <Text as="p" className="text-lg font-medium text-gray-900">
-              <Money data={price!} />
+            <p className="text-lg font-medium text-gray-900">
+              <Money as="span" data={price!} />
               {isDiscounted(price as MoneyV2, compareAtPrice as MoneyV2) && (
                 <CompareAtPrice
                   className={'opacity-50'}
                   data={compareAtPrice as MoneyV2}
                 />
               )}
-            </Text>
+            </p>
           </div>
         </div>
       </div>
