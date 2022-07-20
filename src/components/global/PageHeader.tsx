@@ -19,8 +19,7 @@ export function PageHeader({
     default: 'grid w-full gap-8 p-6 py-8 md:p-8 lg:p-12 justify-items-start',
     blogPost:
       'grid md:text-center w-full gap-4 p-6 py-8 md:p-8 lg:p-12 md:justify-items-center',
-    allCollections:
-      'flex justify-between items-baseline gap-8 p-6 md:p-8 lg:p-12',
+    allCollections: 'border-b border-gray-200 pt-24 pb-10',
   };
 
   const styles = clsx(variants[variant], className);

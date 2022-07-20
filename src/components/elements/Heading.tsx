@@ -19,7 +19,7 @@ export function Heading({
 } & React.HTMLAttributes<HTMLHeadingElement>) {
   const sizes = {
     display: 'font-bold text-display',
-    heading: 'font-bold text-heading',
+    heading: 'text-4xl font-extrabold tracking-tight text-gray-900',
     lead: 'font-bold text-lead',
     copy: 'font-medium text-copy',
   };

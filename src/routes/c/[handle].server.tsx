@@ -12,7 +12,7 @@ import {
 } from '@shopify/hydrogen';
 
 import {PRODUCT_CARD_FRAGMENT} from '~/lib/fragments';
-import {PageHeader, Section, Text} from '~/components';
+import {LayoutElement, PageHeader, Section, Text} from '~/components';
 import {ProductGrid} from '~/components/product/ProductGrid.client';
 import {NotFound, GenericPageLayout} from '~/components/index.server';
 
@@ -54,24 +54,31 @@ export default function Collection({params}: HydrogenRouteProps) {
       <Suspense>
         <Seo type="collection" data={collection} />
       </Suspense>
-      <PageHeader heading={collection.title}>
-        {collection?.description && (
-          <div className="flex w-full items-baseline justify-between">
-            <div>
-              <Text format width="narrow" as="p" className="inline-block">
-                {collection.description}
-              </Text>
+      <LayoutElement>
+        <PageHeader heading={collection.title} variant="allCollections">
+          {collection?.description && (
+            <div className="flex w-full items-baseline justify-between">
+              <div>
+                <Text
+                  format
+                  width="narrow"
+                  as="p"
+                  className="mt-4 text-base text-gray-500"
+                >
+                  {collection.description}
+                </Text>
+              </div>
             </div>
-          </div>
-        )}
-      </PageHeader>
-      <Section>
-        <ProductGrid
-          key={collection.id}
-          collection={collection}
-          url={`/collections/${handle}?country=${country}`}
-        />
-      </Section>
+          )}
+        </PageHeader>
+        <Section padding="y">
+          <ProductGrid
+            key={collection.id}
+            collection={collection}
+            url={`/collections/${handle}?country=${country}`}
+          />
+        </Section>
+      </LayoutElement>
     </GenericPageLayout>
   );
 }
