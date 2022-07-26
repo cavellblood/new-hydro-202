@@ -18,6 +18,7 @@ import {
   DefaultSeo,
   NotFound,
   MarketingOverview,
+  MarketingSubPage,
   TunnelConfigure,
   TunnelChoose,
 } from '~/components/index.server';
@@ -41,11 +42,7 @@ function App({request}: HydrogenRouteProps) {
               basePath={countryCode ? `/${countryCode}/` : undefined}
             />
             <Route path="/:handle" page={<MarketingOverview />} />
-            <Route
-              path="/caterpillar-tunnel/configure"
-              page={<TunnelConfigure />}
-            />
-            <Route path="/caterpillar-tunnel/choose" page={<TunnelChoose />} />
+            <Route path="/:handle/:subpagehandle" page={<MarketingSubPage />} />
             <Route path="*" page={<NotFound />} />
           </Router>
         </CartProvider>

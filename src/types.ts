@@ -282,6 +282,21 @@ export type SanityPage = {
   hero?: SanityHeroPage;
   seo: SanitySeo;
   title: string;
+  slug: string;
+};
+
+export type SanityMarketingOverviewPage = {
+  seo: SanitySeo;
+  title: string;
+  slug: string;
+  subpages: Array<{title: string}>;
+};
+
+export type SanityMarketingSubPage = {
+  seo: SanitySeo;
+  title: string;
+  slug: string;
+  subpages: Array<{title: string}>;
 };
 
 export type SanityProductHotspot = {

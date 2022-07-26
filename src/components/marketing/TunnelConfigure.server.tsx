@@ -1,77 +1,71 @@
-import {GenericPageLayout} from '~/components/index.server';
-import {LayoutElement} from '~/components';
 import {
+  type HydrogenRouteProps,
   HydrogenResponse,
   Image,
-  useQuery,
-  useRouteParams,
+  Seo,
 } from '@shopify/hydrogen';
+import clsx from 'clsx';
+import groq from 'groq';
+
+import {GenericPageLayout} from '~/components/index.server';
+import {LayoutElement} from '~/components';
+import useSanityQuery from '~/hooks/useSanityQuery';
 import {NotFound} from '~/components/index.server';
 import {TunnelResults} from '~/components';
+import type {
+  SanityMarketingOverviewPage,
+  SanityMarketingSubPage,
+} from '~/types';
 
-export const TunnelConfigure = ({response}: {response?: HydrogenResponse}) => {
-  const {handle} = useRouteParams();
-  const endpoint = 'http://localhost:8000/api';
-  const headers = {
-    'content-type': 'application/json',
-    Authorization: 'Bearer wIAT3SzKMjqvz01dG_rV6kUuaXAek_Hj',
-  };
-  const graphqlquery = {
-    query: QUERY,
-    variables: {
-      slug: handle,
-    },
-  };
-  const options = {
-    method: 'POST',
-    headers,
-    body: JSON.stringify(graphqlquery),
-  };
+export const TunnelConfigure = ({params}: {params?: HydrogenRouteProps}) => {
+  const {handle, subpagehandle} = params;
 
-  const queryName = 'marketingPage-' + handle;
-
-  const {data} = useQuery(queryName, async () => {
-    const response = await fetch(endpoint, options);
-
-    return (await response.json()).data.entry;
+  const {data: overviewPage} = useSanityQuery<SanityMarketingOverviewPage>({
+    query: QUERY_SANITY_OVERVIEW,
+    params: {slug: handle},
   });
 
-  const entry = data;
+  const {data: marketingSubPage} = useSanityQuery<SanityMarketingSubPage>({
+    query: QUERY_SANITY_SUBPAGE,
+    params: {slug: subpagehandle},
+  });
 
-  // Return not found page if not entry exists
-  if (entry == null) {
+  console.log(params);
+
+  if (!overviewPage) {
+    // @ts-expect-error <NotFound> doesn't require response
     return <NotFound />;
   }
 
-  const heroImage = entry.image[0];
-  const heroLQIP = heroImage.srcset.split(', ')[0].split(' ')[0];
+  const sanitySeo = overviewPage.seo;
 
   return (
     <GenericPageLayout overlayNav={true}>
       <section aria-label="Hero Image">
         <picture>
-          <source
+          {/* <source
             data-srcset={heroImage.srcset}
             sizes="1542px"
             srcSet={heroImage.srcset}
-          ></source>
+          ></source> */}
           <Image
-            className="desk:h-192  lazyautosizes  lazyload  h-96  w-full  bg-grey-lightest object-cover  lap:h-96"
+            className="desk:h-192  lazyautosizes  lazyload  h-96  w-full  bg-grey-lightest object-cover lap:h-96"
             loading="lazy"
-            style={{
-              objectPosition:
-                heroImage.focalPoint[0] * 100 +
-                '% ' +
-                heroImage.focalPoint[1] * 100 +
-                '%',
-            }}
-            src={heroLQIP}
+            alt={'Hero image of ' + overviewPage.title}
+            // style={{
+            //   objectPosition:
+            //     heroImage.focalPoint[0] * 100 +
+            //     '% ' +
+            //     heroImage.focalPoint[1] * 100 +
+            //     '%',
+            // }}
+            src={overviewPage.image.modules.image.blurDataURL}
             width={'auto'}
             height={'100px'}
             data-sizes="auto"
-            data-srcset={heroImage.srcset}
+            data-srcset={overviewPage.image.modules.image.url}
             sizes=""
-            srcSet={heroImage.srcset}
+            srcSet={overviewPage.image.modules.image.url}
           />
         </picture>
       </section>
@@ -82,26 +76,43 @@ export const TunnelConfigure = ({response}: {response?: HydrogenResponse}) => {
   );
 };
 
-const QUERY = `query marketingSubpage($limit: Int = 1, $slug: [String]) {
-  entry(slug: $slug, limit: $limit, section: "marketing") {
-    ... on marketing_overview_Entry {
-      id
-      title
-      slug
-      navUseOverlay
-      textColor
-      image {
-        id
-        srcset(sizes: ["128w", "640w", "1200w", "2048w"])
-        focalPoint
-        width
-        height
+const QUERY_SANITY_OVERVIEW = groq`
+ *[
+    _type == 'marketingOverview'
+    && slug.current == $slug
+  ][0]{
+    title,
+    "slug": slug.current,
+    image {
+      ...,
+      modules[0]{
+        _key,
+        _type,
+        (_type == "module.image") => {
+          image {
+            ...,
+            "altText": asset->altText,
+            "blurDataURL": asset->metadata.lqip,
+            'height': asset->metadata.dimensions.height,
+            'url': asset->url,
+            'width': asset->metadata.dimensions.width,
+          }
+        }
       }
-      children {
-        id
-        title
-      }
+    },
+    "subpages": marketingSubPage[]-> {
+      title,
+      "slug": slug.current
     }
   }
-}
+`;
+
+const QUERY_SANITY_SUBPAGE = groq`
+ *[
+    _type == 'marketingSubPage' 
+    && slug.current == $slug
+  ][0]{
+    title,
+    "slug": slug.current,
+  }
 `;

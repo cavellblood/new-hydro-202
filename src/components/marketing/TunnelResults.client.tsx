@@ -62,56 +62,6 @@ function Hit({hit}) {
           ''
         )}
       </figure>
-      <div className="px-4 pt-10  pb-4 text-center">
-        <h3 className="text-base font-medium text-gray-900  group-hover:text-brand-500">
-          <a
-            href={'/p/' + hit.sku + '/' + hit.handle}
-            className="hover:underline"
-          >
-            <span aria-hidden="true" className="absolute inset-0" />
-            {hit.title}
-          </a>
-        </h3>
-        {/* <div className="mt-3 flex flex-col items-center">
-                  <p className="sr-only">{product.rating} out of 5 stars</p>
-                  <div className="flex items-center">
-                    {[0, 1, 2, 3, 4].map((rating) => (
-                      <StarIcon
-                        key={rating}
-                        className={classNames(
-                          product.rating > rating ? 'text-yellow-400' : 'text-gray-200',
-                          'flex-shrink-0 h-5 w-5'
-                        )}
-                        aria-hidden="true"
-                      />
-                    ))}
-                  </div>
-                  <p className="mt-1 text-sm text-gray-500">{product.reviewCount} reviews</p>
-                </div> */}
-        <div className="mt-4">
-          {hit.variants_count == 1 ? (
-            <Money
-              data={{amount: String(hit.price), currencyCode: 'USD'}}
-              className="text-lg font-semibold text-gray-900"
-            />
-          ) : (
-            <>
-              <Money
-                data={{
-                  amount: String(hit.variants_min_price),
-                  currencyCode: 'USD',
-                }}
-                className="text-lg font-semibold text-gray-900"
-              />
-              <span className="text-sm">
-                and <span className="font-bold">{hit.variants_count - 1}</span>{' '}
-                other {hit.variants_count - 1 == 1 ? 'option' : 'options'}
-              </span>
-            </>
-          )}
-        </div>
-        <div className="text-xs  text-stone-400">{hit.sku}</div>
-      </div>
     </div>
   );
 }
@@ -251,10 +201,17 @@ function CustomMenu(props: useMenuProps) {
                     }`}
                   >
                     {item.label}
+                    {item.label == 'None' ? (
+                      ''
+                    ) : (
+                      <div className="text-sm text-gray-500">
+                        <p className="sm:inline">Adds 16 inches.</p>
+                      </div>
+                    )}
                   </span>
                   <span className="price-delta">
                     {''}
-                    {!item.isRefined ? getPriceDelta(item, uid) : ''}
+                    {/* {!item.isRefined ? getPriceDelta(item, uid) : ''} */}
                   </span>
                 </span>
               </span>
