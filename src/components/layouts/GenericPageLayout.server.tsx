@@ -18,7 +18,7 @@ export function GenericPageLayout({
   overlayNav,
 }: {
   children: React.ReactNode;
-  bodyJs: string;
+  bodyJs?: string;
   overlayNav: boolean;
 }) {
   return (
