@@ -81,6 +81,9 @@ export default function ProductRoute() {
       : null,
   );
 
+  console.log(`sanityProduct: `, sanityProduct);
+  console.log(`storefrontProduct: `, storefrontProduct);
+
   if (!sanityProduct || !storefrontProduct) {
     // @ts-expect-error <NotFound> doesn't require response
     return <NotFound />;
