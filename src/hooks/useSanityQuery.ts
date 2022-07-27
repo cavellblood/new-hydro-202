@@ -13,6 +13,8 @@ interface Props {
 
 const client = sanityClient(sanityConfig);
 
+console.log(`sanity client: `, client);
+
 export default function useSanityQuery<T>({
   hydrogenQueryOptions,
   query,
