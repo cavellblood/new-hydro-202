@@ -48,6 +48,9 @@ export default function ProductRoute() {
     query: QUERY_SANITY,
   });
 
+  console.log(`handle:`, handle);
+  console.log(`sanityproduct:`, sanityProduct);
+
   // Conditionally fetch Shopify document
   let storefrontProduct: ProductWithNodes | null = null;
   if (sanityProduct?.gid) {
@@ -80,9 +83,6 @@ export default function ProductRoute() {
         }
       : null,
   );
-
-  console.log(`sanityProduct: `, sanityProduct);
-  console.log(`storefrontProduct: `, storefrontProduct);
 
   if (!sanityProduct || !storefrontProduct) {
     // @ts-expect-error <NotFound> doesn't require response
