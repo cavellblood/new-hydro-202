@@ -20,7 +20,7 @@ export default defineConfig({
   session: CookieSessionStorage('__session', {
     path: '/',
     httpOnly: true,
-    secure: import.meta.env.PROD,
+    secure: process.env.NODE_ENV === 'production',
     sameSite: 'Strict',
     maxAge: 60 * 60 * 24 * 30,
   }),
